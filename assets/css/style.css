@@ -18,3 +18,39 @@ header {
     height: 60px;
     box-shadow: 3px 3px 3px #BDBDBD;
 }
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 70px;
+    height: 100%;
+}
+
+.seusQuizzes {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    border: 1px dashed #B9B9B9;
+    border-radius: 8px;
+    width: 80%;
+    height: 200px;
+}
+
+main span {
+    font-size: 20px;
+    color: #B9B9B9;
+    font-weight: 400;
+}
+
+.criarQuizz {
+    margin-top: 25px;
+    font-size: 20px;
+    font-weight: 450;
+    padding: 10px 20px 10px 20px;
+    color: #EC362D;
+    border: 1.5px dashed #EC362D;
+    border-radius: 20px;
+}
