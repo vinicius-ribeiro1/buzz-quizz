@@ -101,6 +101,10 @@ function renderizarQuizzEscolhido(response) {
 function escolherResposta(resposta) {
     perguntaAtual++;
     
+    if (resposta.classList.contains("esbranquicado")) {
+        return;
+    }
+
     const listaRespostas = document.querySelectorAll(".container-resposta").forEach(respostas => {
         respostas.classList.add("esbranquicado");
     })
