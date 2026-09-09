@@ -34,15 +34,16 @@ function renderizarQuizzes(response) {
     }
 }
 
+
 function escolherQuizz(id) {
     perguntaAtual = 0;
 
     ocultarTela1();
-    
+
     mostrarTela2();
-    
+
     const promise = axios.get(API + '/quizzes/' + id);
-    
+
     promise.then(renderizarQuizzEscolhido);
 }
 
@@ -52,11 +53,10 @@ function renderizarQuizzEscolhido(response) {
     respostas = quizzEscolhido.questions[perguntaAtual].answers;
     respostas.sort(comparador)
     console.log(response)
-    
-    
+
 
     CONTAINER_TELA_2.innerHTML += `
-     <div class="quizz-escolhido">
+        <div class="quizz-escolhido">
             <img src="${quizzEscolhido.image}">
             <span class="titulo-card-escolhido">
                 ${quizzEscolhido.title}
@@ -91,15 +91,21 @@ function renderizarQuizzEscolhido(response) {
     `
 }
 
-function proximaPergunta() {
+
+/*function proximaPergunta() {
     perguntaAtual++;
     renderizarQuizzEscolhido();
-}
+}*/
+
 
 function escolherResposta(resposta) {
     perguntaAtual++;
-    resposta.classList.add("esbranquicado");
-    console.log(resposta)
+    
+    const listaRespostas = document.querySelectorAll(".container-resposta").forEach(respostas => {
+        respostas.classList.add("esbranquicado");
+    })
+    
+    resposta.classList.remove("esbranquicado");
 }
 
 
@@ -107,6 +113,7 @@ function ocultarTela1() {
     const OCULTAR = document.querySelector(".conteudo-principal");
     OCULTAR.classList.add("esconde");
 }
+
 
 function mostrarTela2() {
     const EXIBIR = document.querySelector(".tela2");
