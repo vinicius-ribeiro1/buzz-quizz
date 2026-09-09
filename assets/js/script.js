@@ -1,7 +1,10 @@
 const API = 'https://mock-api.driven.com.br/api/v6/buzzquizz'
+const CONTAINER_TELA_2 = document.querySelector(".tela2");
 
 let quizzEscolhido = [];
-let qtdPerguntas = [];
+let perguntaAtual = 0;
+
+
 
 iniciar();
 
@@ -31,21 +34,26 @@ function renderizarQuizzes(response) {
 }
 
 function escolherQuizz(id) {
+    perguntaAtual = 0;
+
     ocultarTela1();
+    
     mostrarTela2();
+    
     const promise = axios.get(API + '/quizzes/' + id);
+    
     promise.then(renderizarQuizzEscolhido);
 }
 
 
 function renderizarQuizzEscolhido(response) {
     quizzEscolhido = response.data;
-    qtdPerguntas = response.data.questions.answers;
-    console.log(quizzEscolhido)
-    const containerTela2 = document.querySelector(".tela2");
-    containerTela2.innerHTML = "";
+    const respostas = quizzEscolhido.questions[perguntaAtual].answers;
+    console.log(response)
+    
+    
 
-    containerTela2.innerHTML = `
+    CONTAINER_TELA_2.innerHTML += `
      <div class="quizz-escolhido">
             <img src="${quizzEscolhido.image}">
             <span class="titulo-card-escolhido">
@@ -55,47 +63,52 @@ function renderizarQuizzEscolhido(response) {
         
         <div class="container-perguntas">
 
-            <span class="titulo">${quizzEscolhido.questions[0].title}</span>
+            <span class="titulo">${quizzEscolhido.questions[perguntaAtual].title}</span>
 
             <div class="container-resposta" onclick="escolherResposta(this)">
-                <img src="${quizzEscolhido.questions[0].answers[0].image}">
-                <span>${quizzEscolhido.questions[0].answers[0].text}</span>
+                <img src="${quizzEscolhido.questions[perguntaAtual].answers[0].image}">
+                <span>${quizzEscolhido.questions[perguntaAtual].answers[0].text}</span>
             </div>
 
             <div class="container-resposta" onclick="escolherResposta(this)">
-                <img src="${quizzEscolhido.questions[0].answers[1].image}">
-                <span>${quizzEscolhido.questions[0].answers[1].text}</span>
+                <img src="${quizzEscolhido.questions[perguntaAtual].answers[1].image}">
+                <span>${quizzEscolhido.questions[perguntaAtual].answers[1].text}</span>
             </div>
 
             <div class="container-resposta" onclick="escolherResposta(this)">
-                <img src="${quizzEscolhido.questions[0].answers[2].image}">
-                <span>${quizzEscolhido.questions[0].answers[2].text}</span>
+                <img src="${quizzEscolhido.questions[perguntaAtual].answers[2].image}">
+                <span>${quizzEscolhido.questions[perguntaAtual].answers[2].text}</span>
             </div>
 
             <div class="container-resposta" onclick="escolherResposta(this)">
-                <img src="${quizzEscolhido.questions[0].answers[3].image}">
-                <span>${quizzEscolhido.questions[0].answers[3].text}</span>
+                <img src="${quizzEscolhido.questions[perguntaAtual].answers[3].image}">
+                <span>${quizzEscolhido.questions[perguntaAtual].answers[3].text}</span>
             </div>
 
         </div>
     `
 }
 
-
-
-function ocultarTela1() {
-    const ocultar = document.querySelector(".conteudo-principal");
-    ocultar.classList.add("esconde");
-}
-
-function mostrarTela2() {
-    const exibir = document.querySelector(".tela2");
-    exibir.classList.remove("esconde");
+function proximaPergunta() {
+    perguntaAtual++;
+    renderizarQuizzEscolhido();
 }
 
 function escolherResposta(resposta) {
+    perguntaAtual++;
+    resposta.classList.add("esbranquicado");
     console.log(resposta)
-    const respostaClicada = document.querySelector(".container-respostas");
-    resposta.classList.add("esbranquicado")
 }
+
+
+function ocultarTela1() {
+    const OCULTAR = document.querySelector(".conteudo-principal");
+    OCULTAR.classList.add("esconde");
+}
+
+function mostrarTela2() {
+    const EXIBIR = document.querySelector(".tela2");
+    EXIBIR.classList.remove("esconde");
+}
+
 
