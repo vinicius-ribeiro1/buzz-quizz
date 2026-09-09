@@ -171,10 +171,11 @@ section {
     justify-content: center;
     flex-wrap: wrap;
     width: 900px;
-    height: 700px;
+    height: 750px;
     margin-top: 30px;
+    margin-bottom: 60px;
     background-color: #FFFFFF;
-    gap: 20px;
+    gap: 40px;
     box-shadow: 3px 3px 3px #BDBDBD;
 }
 
@@ -188,12 +189,13 @@ section {
     color: #FFFFFF;
     font-size: 22px;
     font-weight: bold;
-    background-color: darkslateblue;
 }
 
 .container-perguntas img {
     width: 380px;
     height: 200px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .container-resposta {
@@ -201,8 +203,17 @@ section {
     flex-direction: column;
     gap: 20px;
     font-weight: bold;
+    font-size: 16px;
 }
 
 .esbranquicado {
     opacity: 20%;
+}
+
+.erro {
+    color:#EC362D;
+}
+
+.acerto {
+    color: green;
 }
