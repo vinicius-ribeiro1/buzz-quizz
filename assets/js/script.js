@@ -3,6 +3,7 @@ const CONTAINER_TELA_2 = document.querySelector(".tela2");
 
 let quizzEscolhido = [];
 let perguntaAtual = 0;
+let respostas = [];
 
 
 
@@ -48,7 +49,8 @@ function escolherQuizz(id) {
 
 function renderizarQuizzEscolhido(response) {
     quizzEscolhido = response.data;
-    const respostas = quizzEscolhido.questions[perguntaAtual].answers;
+    respostas = quizzEscolhido.questions[perguntaAtual].answers;
+    respostas.sort(comparador)
     console.log(response)
     
     
@@ -112,3 +114,6 @@ function mostrarTela2() {
 }
 
 
+function comparador() {
+    return Math.random() - 0.5;
+}
