@@ -1,12 +1,13 @@
 const API = 'https://mock-api.driven.com.br/api/v6/buzzquizz'
 const CONTAINER_TELA_2 = document.querySelector(".tela2");
 
-
+let respostasDoQuizz = [];
 let quizzEscolhido = [];
 let acertos = 0;
 let jogadas = 0;
 let perguntas = [];
 let respostas = [];
+
 
 iniciar();
 
@@ -99,8 +100,13 @@ function renderizarQuizzEscolhido(response) {
 
 
 function verificarRespostaCerta(respostaEscolhida) {
+     
+    if (respostaEscolhida.classList.contains("esbranquicado")) {
+        return;
+    }
+
     let respEscolhida = respostaEscolhida;
-    let divPai = respEscolhida.parentNode;
+    let divPai = respostaEscolhida.parentNode;
     let listaRespostas = divPai.querySelectorAll(".container-resposta")
 
     const listaFiltrada = listaRespostas.forEach(elemento => {
@@ -109,18 +115,22 @@ function verificarRespostaCerta(respostaEscolhida) {
         }
     });
 
-    
-   
-    let respostaCerta = quizzEscolhido.questions[jogadas].answers[jogadas]
-    
-    
-   /*const respostaCorreta = respostaCerta
-        .find(resposta => resposta.isCorrectAnswer === true).text
+    let txtCarta = respEscolhida.querySelector("span").innerText;
 
-        if (cartaEscolhida === respostaCorreta) {
+    respostasDoQuizz = quizzEscolhido.questions
+    console.log(respostasDoQuizz)
+
+    const contResp = respostasDoQuizz
+        .filter(answ => respostasDoQuizz.answers)
+        console.log(contResp)
+   
+        /*const respostasCorretasDoQuizz = respostasDoQuizz
+        .find(resposta => resposta.isCorrectAnswer === true).text
+        console.log(respostasCorretasDoQuizz)
+        if (respostaEscolhida === respostaCorr) {
             acertos++;
         }
-    */    
+        console.log(acertos)*/
 }
 
 function ocultarTela1() {
