@@ -118,19 +118,22 @@ function verificarRespostaCerta(respostaEscolhida) {
     let txtCarta = respEscolhida.querySelector("span").innerText;
 
     respostasDoQuizz = quizzEscolhido.questions
-    console.log(respostasDoQuizz)
-
-    const contResp = respostasDoQuizz
-        .filter(answ => respostasDoQuizz.answers)
-        console.log(contResp)
+    
+    const soRespostas = respostasDoQuizz
+        .map(resposta => resposta.answers);
+    
+        console.log(soRespostas);
    
-        /*const respostasCorretasDoQuizz = respostasDoQuizz
-        .find(resposta => resposta.isCorrectAnswer === true).text
-        console.log(respostasCorretasDoQuizz)
-        if (respostaEscolhida === respostaCorr) {
-            acertos++;
-        }
-        console.log(acertos)*/
+    console.log("O que estou buscando:", txtCarta);
+    console.log("Lista onde estou buscando:", soRespostas);
+    
+    for(let i = 0; i < soRespostas.length; i++) {
+        console.log(soRespostas[i])
+        
+    }
+    const respCertaOuErrada = soRespostas
+    .find(resp => txtCarta == resp.text);   
+    console.log(respCertaOuErrada) 
 }
 
 function ocultarTela1() {
