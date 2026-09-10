@@ -161,9 +161,10 @@ main {
 
 section {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    
     align-items: center;
+    width: 100%;
+    height: auto;
 }
 
 .container-perguntas {
@@ -201,9 +202,17 @@ section {
 .container-resposta {
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     gap: 20px;
     font-weight: bold;
     font-size: 16px;
+}
+
+.tela2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
 .esbranquicado {
@@ -211,7 +220,7 @@ section {
 }
 
 .erro {
-    color:#EC362D;
+    color: #EC362D;
 }
 
 .acerto {

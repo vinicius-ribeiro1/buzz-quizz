@@ -3,11 +3,10 @@ const CONTAINER_TELA_2 = document.querySelector(".tela2");
 
 
 let quizzEscolhido = [];
-let respostas = [];
-let pergunta = [];
-let perguntaAtual = 0;
 let acertos = 0;
+let jogadas = 0;
 let perguntas = [];
+let respostas = [];
 
 iniciar();
 
@@ -55,6 +54,7 @@ function renderizarQuizzEscolhido(response) {
 
     perguntas = quizzEscolhido.questions;
 
+    
 
 
     CONTAINER_TELA_2.innerHTML = `
@@ -67,49 +67,61 @@ function renderizarQuizzEscolhido(response) {
         
     `
     let htmlPerguntas = '';
-    
+
     for (let i = 0; i < perguntas.length; i++) {
 
         htmlPerguntas += `
             <div class="container-perguntas">
 
-                <span class="titulo" style="background:${perguntas[i].color}">${perguntas[i].title}</span>
+                <span class="titulo" style="background:${perguntas[i].color}">
+                    ${perguntas[i].title}
+                </span>
+        `;
 
-            `
         for (let j = 0; j < perguntas[i].answers.length; j++) {
+
             htmlPerguntas += `
-                <div class="container-resposta" onclick="escolherResposta(this)">
+                <div class="container-resposta" onclick="verificarRespostaCerta(this)">
                     <img src="${perguntas[i].answers[j].image}">
                     <span class="legenda">${perguntas[i].answers[j].text}</span>
                 </div>
-        `
+            `;
         }
-        htmlPerguntas += `</div>`
-        CONTAINER_TELA_2.innerHTML = htmlPerguntas;
+
+        htmlPerguntas += `
+            </div>
+        `;
     }
+
+    CONTAINER_TELA_2.innerHTML = htmlPerguntas;
     
 }
 
 
-function escolherResposta(resposta) {
-    if (resposta.classList.contains("esbranquicado")) {
-        return;
-    }
+function verificarRespostaCerta(respostaEscolhida) {
+    let respEscolhida = respostaEscolhida;
+    let divPai = respEscolhida.parentNode;
+    let listaRespostas = divPai.querySelectorAll(".container-resposta")
 
-    const listaRespostas = document.querySelectorAll(".container-resposta").forEach(respostas => {
-        respostas.classList.add("esbranquicado");
-    })
+    const listaFiltrada = listaRespostas.forEach(elemento => {
+        if(elemento !== respostaEscolhida) {
+            elemento.classList.add("esbranquicado");
+        }
+    });
 
-    resposta.classList.remove("esbranquicado");
+    
+   
+    let respostaCerta = quizzEscolhido.questions[jogadas].answers[jogadas]
+    
+    
+   /*const respostaCorreta = respostaCerta
+        .find(resposta => resposta.isCorrectAnswer === true).text
 
-    const cartaClicada = resposta.querySelector("span").innerText;
-
-    perguntaAtual++;
-
-    verificarRespostaCerta(cartaClicada);
-    aplicarEstiloLegenda();
+        if (cartaEscolhida === respostaCorreta) {
+            acertos++;
+        }
+    */    
 }
-
 
 function ocultarTela1() {
     const OCULTAR = document.querySelector(".conteudo-principal");
@@ -127,19 +139,5 @@ function comparador() {
     return Math.random() - 0.5;
 }
 
-function verificarRespostaCerta(cartaClicada) {
 
-    const respostaCorreta = respostas
-        .find(resposta => resposta.isCorrectAnswer === true).text
 
-    if (cartaClicada === respostaCorreta) {
-        acertos++;
-    }
-
-}
-
-function aplicarEstiloLegenda() {
-    const legendas = document.querySelectorAll(".legenda").forEach(respostas => {
-        respostas.classList.add("erro");
-    })
-}
