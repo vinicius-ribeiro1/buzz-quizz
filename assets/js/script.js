@@ -55,7 +55,6 @@ function renderizarQuizzEscolhido(response) {
 
     perguntas = quizzEscolhido.questions;
 
-    
 
 
     CONTAINER_TELA_2.innerHTML = `
@@ -95,12 +94,12 @@ function renderizarQuizzEscolhido(response) {
     }
 
     CONTAINER_TELA_2.innerHTML = htmlPerguntas;
-    
+
 }
 
 
 function verificarRespostaCerta(respostaEscolhida) {
-     
+
     if (respostaEscolhida.classList.contains("esbranquicado")) {
         return;
     }
@@ -110,7 +109,7 @@ function verificarRespostaCerta(respostaEscolhida) {
     let listaRespostas = divPai.querySelectorAll(".container-resposta")
 
     const listaFiltrada = listaRespostas.forEach(elemento => {
-        if(elemento !== respostaEscolhida) {
+        if (elemento !== respostaEscolhida) {
             elemento.classList.add("esbranquicado");
         }
     });
@@ -118,23 +117,27 @@ function verificarRespostaCerta(respostaEscolhida) {
     let txtCarta = respEscolhida.querySelector("span").innerText;
 
     respostasDoQuizz = quizzEscolhido.questions
-    
+
+
+
     const soRespostas = respostasDoQuizz
         .map(resposta => resposta.answers);
-    
-        console.log(soRespostas);
-   
-    console.log("O que estou buscando:", txtCarta);
-    console.log("Lista onde estou buscando:", soRespostas);
-    
-    for(let i = 0; i < soRespostas.length; i++) {
-        console.log(soRespostas[i])
+    console.log(soRespostas)
+
+
+    for (let i = 0; i < soRespostas.length; i++) {
+        for(let j = 0; j < soRespostas[i].length; j++) {
+            if(soRespostas[i][j].isCorrectAnswer) {
+                if(soRespostas[i][j].text === txtCarta) {
+                    acertos++;
+                }
+            }
+        }
         
     }
-    const respCertaOuErrada = soRespostas
-    .find(resp => txtCarta == resp.text);   
-    console.log(respCertaOuErrada) 
+
 }
+
 
 function ocultarTela1() {
     const OCULTAR = document.querySelector(".conteudo-principal");
