@@ -55,6 +55,7 @@ function renderizarQuizzEscolhido(response) {
 
     perguntas = quizzEscolhido.questions;
 
+    embaralharRespostas();
 
 
     CONTAINER_TELA_2.innerHTML = `
@@ -118,22 +119,18 @@ function verificarRespostaCerta(respostaEscolhida) {
 
     respostasDoQuizz = quizzEscolhido.questions
 
-
-
     const soRespostas = respostasDoQuizz
         .map(resposta => resposta.answers);
     console.log(soRespostas)
 
 
     for (let i = 0; i < soRespostas.length; i++) {
-        for(let j = 0; j < soRespostas[i].length; j++) {
-            if(soRespostas[i][j].isCorrectAnswer) {
-                if(soRespostas[i][j].text === txtCarta) {
-                    acertos++;
-                }
+        for (let j = 0; j < soRespostas[i].length; j++) {
+            if (soRespostas[i][j].isCorrectAnswer && soRespostas[i][j].text === txtCarta) {
+                txtCarta.classList.add("acerto");
+                acertos++;
             }
         }
-        
     }
 
 }
@@ -155,5 +152,8 @@ function comparador() {
     return Math.random() - 0.5;
 }
 
-
-
+function embaralharRespostas() {
+    for (let i = 0; i < perguntas.length; i++) {
+        perguntas[i].answers.sort(comparador)
+    }
+}
