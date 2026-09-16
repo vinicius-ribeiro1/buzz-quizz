@@ -1,5 +1,6 @@
 const API = 'https://mock-api.driven.com.br/api/v6/buzzquizz'
 const CONTAINER_TELA_2 = document.querySelector(".tela2");
+const TIME_2S = 2 * 1000;
 
 let respostasCertas = [];
 let respostasDoQuizz = [];
@@ -8,6 +9,7 @@ let acertos = 0;
 let jogadas = 0;
 let perguntas = [];
 let respostas = [];
+let divPai;
 
 
 
@@ -119,10 +121,11 @@ function verificarRespostaCerta(respostaEscolhida) {
         return;
     }
 
-    let divPai = respostaEscolhida.parentNode;
+    divPai = respostaEscolhida.parentNode;
     let listaRespostas = divPai.querySelectorAll(".container-resposta");
     let listaLegendas = divPai.querySelectorAll("span.legenda")
-
+    
+    
     const listaFiltrada = listaRespostas.forEach(elemento => {
         if (elemento !== respostaEscolhida) {
             elemento.classList.add("esbranquicado");
@@ -130,17 +133,20 @@ function verificarRespostaCerta(respostaEscolhida) {
     });
 
     listaLegendas.forEach(elemento => {
-       
-        if(respostasCertas.includes(elemento.textContent)) {
+         if(respostasCertas.includes(elemento.textContent)) {
             elemento.classList.add("acerto")
         } else {
             elemento.classList.add("erro")
         }
-    }) 
-    
+    })
+
+    setTimeout(rolarParaProxima, TIME_2S);
 }
 
-
+function rolarParaProxima () {
+    proximaPergunta = divPai.nextElementSibling;
+    proximaPergunta.scrollIntoView();
+}
 
 function ocultarTela1() {
     const OCULTAR = document.querySelector(".conteudo-principal");
