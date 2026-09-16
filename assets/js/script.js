@@ -1,12 +1,14 @@
 const API = 'https://mock-api.driven.com.br/api/v6/buzzquizz'
 const CONTAINER_TELA_2 = document.querySelector(".tela2");
 
+let respostasCertas = [];
 let respostasDoQuizz = [];
 let quizzEscolhido = [];
 let acertos = 0;
 let jogadas = 0;
 let perguntas = [];
 let respostas = [];
+
 
 
 iniciar();
@@ -54,6 +56,18 @@ function renderizarQuizzEscolhido(response) {
     quizzEscolhido = response.data;
 
     perguntas = quizzEscolhido.questions;
+
+    
+    
+    for (let i = 0; i < perguntas.length; i++) {
+        for (let j = 0; j < perguntas[i].answers.length; j++) {
+
+            if (perguntas[i].answers[j].isCorrectAnswer) {
+                respostasCertas.push(perguntas[i].answers[j].text);
+            }
+
+        }
+    }
 
     embaralharRespostas();
 
@@ -105,9 +119,9 @@ function verificarRespostaCerta(respostaEscolhida) {
         return;
     }
 
-    let respEscolhida = respostaEscolhida;
     let divPai = respostaEscolhida.parentNode;
-    let listaRespostas = divPai.querySelectorAll(".container-resposta")
+    let listaRespostas = divPai.querySelectorAll(".container-resposta");
+    let listaLegendas = divPai.querySelectorAll("span.legenda")
 
     const listaFiltrada = listaRespostas.forEach(elemento => {
         if (elemento !== respostaEscolhida) {
@@ -115,25 +129,17 @@ function verificarRespostaCerta(respostaEscolhida) {
         }
     });
 
-    let txtCarta = respEscolhida.querySelector("span").innerText;
-
-    respostasDoQuizz = quizzEscolhido.questions
-
-    const soRespostas = respostasDoQuizz
-        .map(resposta => resposta.answers);
-    console.log(soRespostas)
-
-
-    for (let i = 0; i < soRespostas.length; i++) {
-        for (let j = 0; j < soRespostas[i].length; j++) {
-            if (soRespostas[i][j].isCorrectAnswer && soRespostas[i][j].text === txtCarta) {
-                txtCarta.classList.add("acerto");
-                acertos++;
-            }
+    listaLegendas.forEach(elemento => {
+       
+        if(respostasCertas.includes(elemento.textContent)) {
+            elemento.classList.add("acerto")
+        } else {
+            elemento.classList.add("erro")
         }
-    }
-
+    }) 
+    
 }
+
 
 
 function ocultarTela1() {
