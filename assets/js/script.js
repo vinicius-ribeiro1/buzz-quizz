@@ -5,11 +5,12 @@ const TIME_2S = 2 * 1000;
 let respostasCertas = [];
 let respostasDoQuizz = [];
 let quizzEscolhido = [];
-let acertos = 0;
-let jogadas = 0;
 let perguntas = [];
-let respostas = [];
 let divPai;
+let qtdPerguntas = 0;
+let acertos = 0;
+
+
 
 
 
@@ -56,11 +57,10 @@ function escolherQuizz(id) {
 function renderizarQuizzEscolhido(response) {
 
     quizzEscolhido = response.data;
-
     perguntas = quizzEscolhido.questions;
+    qtdPerguntas = perguntas.length;
 
-    
-    
+
     for (let i = 0; i < perguntas.length; i++) {
         for (let j = 0; j < perguntas[i].answers.length; j++) {
 
@@ -102,11 +102,12 @@ function renderizarQuizzEscolhido(response) {
                     <img src="${perguntas[i].answers[j].image}">
                     <span class="legenda">${perguntas[i].answers[j].text}</span>
                 </div>
+
             `;
         }
 
-        htmlPerguntas += `
-            </div>
+        htmlPerguntas += `</div>
+    
         `;
     }
 
@@ -124,8 +125,9 @@ function verificarRespostaCerta(respostaEscolhida) {
     divPai = respostaEscolhida.parentNode;
     let listaRespostas = divPai.querySelectorAll(".container-resposta");
     let listaLegendas = divPai.querySelectorAll("span.legenda")
-    
-    
+    let cartaEscolhidaTxt = respostaEscolhida.querySelector("span").innerText;
+
+
     const listaFiltrada = listaRespostas.forEach(elemento => {
         if (elemento !== respostaEscolhida) {
             elemento.classList.add("esbranquicado");
@@ -133,19 +135,30 @@ function verificarRespostaCerta(respostaEscolhida) {
     });
 
     listaLegendas.forEach(elemento => {
-         if(respostasCertas.includes(elemento.textContent)) {
+        if (respostasCertas.includes(elemento.textContent)) {
             elemento.classList.add("acerto")
         } else {
             elemento.classList.add("erro")
         }
     })
 
+    for (let i = 0; i < respostasCertas.length; i++) {
+        if (cartaEscolhidaTxt === respostasCertas[i]) {
+            acertos++;
+        }
+    }
+
     setTimeout(rolarParaProxima, TIME_2S);
 }
 
-function rolarParaProxima () {
-    proximaPergunta = divPai.nextElementSibling;
-    proximaPergunta.scrollIntoView();
+function rolarParaProxima() {
+    const proximaPergunta = divPai.nextElementSibling;
+    if (proximaPergunta !== null) {
+        proximaPergunta.scrollIntoView();
+    } else {
+        conferirResultado();
+    }
+
 }
 
 function ocultarTela1() {
@@ -169,3 +182,26 @@ function embaralharRespostas() {
         perguntas[i].answers.sort(comparador)
     }
 }
+
+function conferirResultado() {
+    let porcentagemDeAcertos = Math.floor((acertos / qtdPerguntas) * 100)
+    console.log(acertos)
+    console.log(porcentagemDeAcertos)
+   
+    let levelAtingido = [];
+
+    for (let i = 0; i < quizzEscolhido.levels.length; i++) {
+
+        if (porcentagemDeAcertos >= quizzEscolhido.levels[i].minValue) {
+            levelAtingido = quizzEscolhido.levels[i]
+            return;
+        }
+        
+    }
+    
+    console.log(levelAtingido)
+}
+    
+    
+
+
