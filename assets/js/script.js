@@ -6,6 +6,7 @@ let respostasCertas = [];
 let respostasDoQuizz = [];
 let quizzEscolhido = [];
 let perguntas = [];
+let levelAtingido = [];
 let divPai;
 let qtdPerguntas = 0;
 let acertos = 0;
@@ -111,7 +112,7 @@ function renderizarQuizzEscolhido(response) {
         `;
     }
 
-    CONTAINER_TELA_2.innerHTML = htmlPerguntas;
+    CONTAINER_TELA_2.innerHTML += htmlPerguntas;
 
 }
 
@@ -185,23 +186,36 @@ function embaralharRespostas() {
 
 function conferirResultado() {
     let porcentagemDeAcertos = Math.floor((acertos / qtdPerguntas) * 100)
-    console.log(acertos)
-    console.log(porcentagemDeAcertos)
-   
-    let levelAtingido = [];
-
+    
     for (let i = 0; i < quizzEscolhido.levels.length; i++) {
 
         if (porcentagemDeAcertos >= quizzEscolhido.levels[i].minValue) {
             levelAtingido = quizzEscolhido.levels[i]
-            return;
+            break;
         }
         
     }
     
-    console.log(levelAtingido)
+    renderizarResultado ();
+    
 }
     
     
+function renderizarResultado () {
 
+    let htmlResultado = '';
 
+    htmlResultado = `
+    <div class="resultado">
+        <span class="titulo" style="background: #B22222">${levelAtingido.minValue}% de acerto: ${levelAtingido.title}</span>
+        <div class="centro">
+            <img src="${levelAtingido.image}">
+            <span class="legenda">${levelAtingido.text}</span>
+        <div>
+    
+    
+    </div>
+    `
+
+    CONTAINER_TELA_2.innerHTML += htmlResultado;
+}
