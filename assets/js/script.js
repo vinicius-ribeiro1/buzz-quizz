@@ -10,6 +10,7 @@ let levelAtingido = [];
 let divPai;
 let qtdPerguntas = 0;
 let acertos = 0;
+let porcentagemDeAcertos = 0;
 
 
 
@@ -185,37 +186,61 @@ function embaralharRespostas() {
 }
 
 function conferirResultado() {
-    let porcentagemDeAcertos = Math.floor((acertos / qtdPerguntas) * 100)
-    
+    porcentagemDeAcertos = Math.floor((acertos / qtdPerguntas) * 100)
+
     for (let i = 0; i < quizzEscolhido.levels.length; i++) {
 
         if (porcentagemDeAcertos >= quizzEscolhido.levels[i].minValue) {
             levelAtingido = quizzEscolhido.levels[i]
             break;
         }
-        
+
     }
-    
-    renderizarResultado ();
-    
+
+    renderizarResultado();
+
 }
-    
-    
-function renderizarResultado () {
+
+
+function renderizarResultado() {
 
     let htmlResultado = '';
 
     htmlResultado = `
     <div class="resultado">
-        <span class="titulo" style="background: #B22222">${levelAtingido.minValue}% de acerto: ${levelAtingido.title}</span>
+        <span class="titulo" style="background: #B22222">${porcentagemDeAcertos}% de acerto: ${levelAtingido.title}</span>
         <div class="centro">
             <img src="${levelAtingido.image}">
             <span class="legenda">${levelAtingido.text}</span>
-        <div>
-    
-    
+        </div>
+    </div>
+    <div class="botao">
+        <div class="botoes" onclick="reiniciarQuizz()">Reiniciar Quizz</div>
+        <div class="botoes" onclick="voltarParaHome()">Voltar pra home</div>
     </div>
     `
 
     CONTAINER_TELA_2.innerHTML += htmlResultado;
+
+    const containerResultado = document.querySelector(".resultado");
+
+    setTimeout(() => {
+        containerResultado.scrollIntoView();
+    }, TIME_2S);
+
 }
+
+function reiniciarQuizz () { 
+    acertos = 0;
+    porcentagemDeAcertos = 0;
+    levelAtingido = [];
+
+    
+
+    const topo = document.querySelector(".quizz-escolhido");
+    topo.scrollIntoView();
+
+
+
+}
+
