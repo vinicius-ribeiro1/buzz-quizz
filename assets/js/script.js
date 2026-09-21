@@ -8,6 +8,7 @@ let quizzEscolhido = [];
 let perguntas = [];
 let levelAtingido = [];
 let divPai;
+let htmlResultado = '';
 let qtdPerguntas = 0;
 let acertos = 0;
 let porcentagemDeAcertos = 0;
@@ -204,7 +205,7 @@ function conferirResultado() {
 
 function renderizarResultado() {
 
-    let htmlResultado = '';
+    htmlResultado = '';
 
     htmlResultado = `
     <div class="resultado">
@@ -234,13 +235,55 @@ function reiniciarQuizz () {
     acertos = 0;
     porcentagemDeAcertos = 0;
     levelAtingido = [];
-
     
 
+    const containerRespostas = document.querySelectorAll(".container-resposta");
+
+    containerRespostas.forEach(card => {
+        card.classList.remove("esbranquicado");
+    });
+
+    
+    const resetarLegenda = document.querySelectorAll("span.legenda");
+    
+    resetarLegenda.forEach(legenda => {
+        legenda.classList.remove("acerto");
+        legenda.classList.remove("erro");
+    })
+
+    
     const topo = document.querySelector(".quizz-escolhido");
     topo.scrollIntoView();
 
+    
+    htmlResultado = '';
+
+    
+    
+}
 
 
+function voltarParaHome () { 
+    respostasCertas = [];
+    respostasDoQuizz = [];
+    quizzEscolhido = [];
+    perguntas = [];
+    levelAtingido = [];
+    divPai;
+    htmlResultado = '';
+    qtdPerguntas = 0;
+    acertos = 0;
+    porcentagemDeAcertos = 0;
+   
+    CONTAINER_TELA_2.innerHTML = '';
+
+    const exibirTela1 = document.querySelector(".conteudo-principal");
+    exibirTela1.classList.remove("esconde");
+
+    const ocultarTela2 = document.querySelector(".tela2");
+    ocultarTela2.classList.add("esconde");
+
+    const header = document.querySelector("header")
+    header.scrollIntoView();
 }
 
