@@ -1,5 +1,6 @@
 const API = 'https://mock-api.driven.com.br/api/v6/buzzquizz'
 const CONTAINER_TELA_2 = document.querySelector(".tela2");
+const CONTAINER_TELA_3 = document.querySelector(".tela3")
 const TIME_2S = 2 * 1000;
 
 let respostasCertas = [];
@@ -87,7 +88,7 @@ function renderizarQuizzEscolhido(response) {
         </div>
         
     `
-     htmlPerguntas = '';
+    htmlPerguntas = '';
 
     for (let i = 0; i < perguntas.length; i++) {
 
@@ -259,6 +260,15 @@ function reiniciarQuizz() {
     CONTAINER_TELA_2.innerHTML = '';
     htmlResultado = '';
 
+    CONTAINER_TELA_2.innerHTML = `
+        <div class="quizz-escolhido">
+            <img src="${quizzEscolhido.image}">
+            <span class="titulo-card-escolhido">
+                ${quizzEscolhido.title}
+            </span>
+        </div>
+        
+    `
     for (let i = 0; i < perguntas.length; i++) {
 
         htmlPerguntas += `
@@ -311,5 +321,30 @@ function voltarParaHome() {
 
     const header = document.querySelector("header")
     header.scrollIntoView();
+}
+
+
+function mostrarTela3 () {
+    const exibeT3 = document.querySelector(".tela3");
+    exibeT3.classList.remove("esconde");
+}
+
+
+function criarQuizz () {
+    ocultarTela1 ();
+    mostrarTela3 ();
+    
+    CONTAINER_TELA_3.innerHTML = `
+        <h1 class="titulo-tela3">Comece pelo começo</h1>
+
+        <div class="containerInput"> 
+            <input placeholder="Título do seu quiz..." class="input-titulo">
+            <input placeholder="URL da imagem do seu quiz" class="input-img">
+            <input placeholder="Quantidade de perguntas do seu quizz" class="input-qtdPerguntas">
+            <input placeholder="Quantidade de níveis do seu quizz..." class="input-niveis">
+        </div>
+
+        <div class="botoes" onclick="salvarInformacoesQuizz">Prosseguir para criar perguntas</div>
+    `
 }
 
