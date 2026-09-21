@@ -8,6 +8,7 @@ let quizzEscolhido = [];
 let perguntas = [];
 let levelAtingido = [];
 let divPai;
+let htmlPerguntas = '';
 let htmlResultado = '';
 let qtdPerguntas = 0;
 let acertos = 0;
@@ -86,7 +87,7 @@ function renderizarQuizzEscolhido(response) {
         </div>
         
     `
-    let htmlPerguntas = '';
+     htmlPerguntas = '';
 
     for (let i = 0; i < perguntas.length; i++) {
 
@@ -231,11 +232,11 @@ function renderizarResultado() {
 
 }
 
-function reiniciarQuizz () { 
+function reiniciarQuizz() {
     acertos = 0;
     porcentagemDeAcertos = 0;
     levelAtingido = [];
-    
+    perguntas = [];
 
     const containerRespostas = document.querySelectorAll(".container-resposta");
 
@@ -243,27 +244,52 @@ function reiniciarQuizz () {
         card.classList.remove("esbranquicado");
     });
 
-    
+
     const resetarLegenda = document.querySelectorAll("span.legenda");
-    
+
     resetarLegenda.forEach(legenda => {
         legenda.classList.remove("acerto");
         legenda.classList.remove("erro");
     })
 
-    
+
     const topo = document.querySelector(".quizz-escolhido");
     topo.scrollIntoView();
 
-    
+    CONTAINER_TELA_2.innerHTML = '';
     htmlResultado = '';
 
+    for (let i = 0; i < perguntas.length; i++) {
+
+        htmlPerguntas += `
+            <div class="container-perguntas">
+
+                <span class="titulo" style="background:${perguntas[i].color}">
+                    ${perguntas[i].title}
+                </span>
+        `;
+
+        for (let j = 0; j < perguntas[i].answers.length; j++) {
+
+            htmlPerguntas += `
+                <div class="container-resposta" onclick="verificarRespostaCerta(this)">
+                    <img src="${perguntas[i].answers[j].image}">
+                    <span class="legenda">${perguntas[i].answers[j].text}</span>
+                </div>
+
+            `;
+        }
+
+        htmlPerguntas += `</div>
     
-    
+        `;
+    }
+
+    CONTAINER_TELA_2.innerHTML += htmlPerguntas;
 }
 
 
-function voltarParaHome () { 
+function voltarParaHome() {
     respostasCertas = [];
     respostasDoQuizz = [];
     quizzEscolhido = [];
@@ -274,7 +300,7 @@ function voltarParaHome () {
     qtdPerguntas = 0;
     acertos = 0;
     porcentagemDeAcertos = 0;
-   
+
     CONTAINER_TELA_2.innerHTML = '';
 
     const exibirTela1 = document.querySelector(".conteudo-principal");
