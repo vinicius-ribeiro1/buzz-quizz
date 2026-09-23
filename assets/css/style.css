@@ -15,7 +15,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 35px;
+    font-size: 30px;
     font-weight: bold;
     color: #FFFFFF;
     background-color: #EC362D;
@@ -161,7 +161,7 @@ main {
 
 section {
     display: flex;
-    
+
     align-items: center;
     width: 100%;
     height: auto;
@@ -250,6 +250,7 @@ section {
     margin-top: 30px;
     gap: 80px;
 }
+
 .resultado span.legenda {
     word-wrap: break-word;
     font-size: 20px;
@@ -271,7 +272,7 @@ section {
     margin-top: 40px;
     margin-bottom: 30px;
     gap: 30px;
-    
+
 }
 
 
@@ -280,9 +281,10 @@ section {
     font-weight: 400;
     padding: 12px 30px;
     color: #f3f3f3;
-    background-color: #EC362D;;
+    background-color: #EC362D;
+    ;
     border: 1.5px dashed #EC362D;
-    border-radius: 50px;
+    border-radius: 10px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
 }
@@ -296,33 +298,68 @@ section {
 }
 
 .titulo-tela3 {
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 24px;
+    font-weight: 500;
     margin-top: 50px;
 }
 
 .containerInput {
-    width: 550px;
-    height: 250px;
+    width: 650px;
+    height: 220px;
     display: flex;
-    gap: 15px;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    box-shadow: 1px 1px 1px #BDBDBD;
+    gap: 10px;
+    flex-direction: column;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
     background-color: #FFFFFF;
 }
 
-
-
-.containerInput > input {
+.containerInput>input {
     border-radius: 5px;
     height: 40px;
-    width: 500px;
-    border-color: #BDBDBD;
-    border-style: solid;
-    font-size: 16px;
+    width: 600px;
+    border: 1px solid #BDBDBD;
+    font-size: 14px;
     color: #BABABA;
     font-style: italic;
-    padding-left: 5px;
+    padding-left: 10px;
+
+}
+
+.titulo-perguntas {
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000;
+}
+
+.containerDeCriarPerguntas {
+    width: 700px;
+    height: 800px;
+    box-shadow: 1px 1px 1px #BDBDBD;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    padding-left: 25px;
+}
+
+.containerInputPerguntas {
+    width: 650px;
+    height: 220px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    background-color: #FFFFFF;
+}
+
+.containerInputPerguntas>input {
+    border-radius: 5px;
+    height: 40px;
+    width: 600px;
+    border: 1px solid #BDBDBD;
+    font-size: 14px;
+    color: #BABABA;
+    font-style: italic;
+    padding-left: 10px;
+
 }

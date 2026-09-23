@@ -15,7 +15,10 @@ let qtdPerguntas = 0;
 let acertos = 0;
 let porcentagemDeAcertos = 0;
 
-
+let tituloMeuQuizz;
+let imgMeuQuizz;
+let qtdPerguntasMeuQuizz;
+let niveisMeuQuizz;
 
 
 
@@ -324,27 +327,118 @@ function voltarParaHome() {
 }
 
 
-function mostrarTela3 () {
+function mostrarTela3() {
     const exibeT3 = document.querySelector(".tela3");
     exibeT3.classList.remove("esconde");
 }
 
 
-function criarQuizz () {
-    ocultarTela1 ();
-    mostrarTela3 ();
-    
+function criarQuizz() {
+    ocultarTela1();
+    mostrarTela3();
+
     CONTAINER_TELA_3.innerHTML = `
         <h1 class="titulo-tela3">Comece pelo começo</h1>
 
         <div class="containerInput"> 
-            <input placeholder="Título do seu quiz..." class="input-titulo">
-            <input placeholder="URL da imagem do seu quiz" class="input-img">
-            <input placeholder="Quantidade de perguntas do seu quizz" class="input-qtdPerguntas">
-            <input placeholder="Quantidade de níveis do seu quizz..." class="input-niveis">
+            <input placeholder="Título do seu quizz..." class="input-titulo">
+            <input placeholder="URL da imagem do seu quizz..." class="input-img">
+            <input type="number" placeholder="Quantidade de perguntas do seu quizz...
+            " class="input-qtdPerguntas">
+            <input type="number" placeholder="Quantidade de níveis do seu quizz..." class="input-niveis">
         </div>
 
-        <div class="botoes" onclick="salvarInformacoesQuizz">Prosseguir para criar perguntas</div>
+        <div class="botoes" onclick="salvarInfoBasicasQuizz()">Prosseguir para criar perguntas</div>
     `
+}
+
+function salvarInfoBasicasQuizz() {
+    tituloMeuQuizz = document.querySelector(".input-titulo").value;
+    imgMeuQuizz = document.querySelector(".input-img").value;
+    qtdPerguntasMeuQuizz = parseInt(document.querySelector(".input-qtdPerguntas").value);
+    niveisMeuQuizz = parseInt(document.querySelector(".input-niveis").value);
+
+    validarInfoBasicasQuizz();
+
+    if (!validarInfoBasicasQuizz()) {
+        alert('Preencha os dados corretamente');
+    } else {
+        criarPerguntas();
+    }
+}
+
+function validarInfoBasicasQuizz() {
+
+    if (tituloMeuQuizz.length < 20 || tituloMeuQuizz.length > 65) {
+        return false;
+    }
+
+    try {
+        const url = new URL(imgMeuQuizz);
+
+        if (url.protocol !== "http:" && url.protocol !== "https:") {
+            return false;
+        }
+    } catch {
+        return false;
+    }
+
+    if (qtdPerguntasMeuQuizz < 3) {
+        return false;
+    }
+
+    if (niveisMeuQuizz < 2) {
+        return false;
+    }
+
+    return true;
+}
+
+function criarPerguntas(indice) {
+    CONTAINER_TELA_3.innerHTML = `
+        <h1 class="titulo-tela3">Crie suas perguntas</h1>
+        `
+    let minhasPerguntas = '';
+
+    for (let i = 0; i < qtdPerguntasMeuQuizz; i++) {
+        
+        indice = i;
+
+        minhasPerguntas += `
+        <div class="containerDeCriarPerguntas">
+            <h1 class="titulo-perguntas">Pergunta ${indice + 1}</h1>
+            <div class="containerInputPerguntas"> 
+                <input placeholder="Texto da pergunta" class="input-txtPergunta">
+                <input placeholder="Cor de fundo da pergunta" class="">
+            </div>
+            <h1 class="titulo-perguntas">Resposta correta</h1>
+            <div class="containerInputPerguntas"> 
+                <input placeholder="Resposta correta" class="">
+                <input placeholder="URL da imagem" class="">
+            </div>
+            <h1 class="titulo-perguntas">Resposta incorretas</h1>
+            <div class="containerInputPerguntas"> 
+                <input placeholder="Resposta incorreta 1" class="">
+                <input placeholder="URL da imagem 1" class="">
+            </div>
+            <div class="containerInputPerguntas"> 
+                <input placeholder="Resposta incorreta 2" class="">
+                <input placeholder="URL da imagem 2" class="">
+            </div>
+            <div class="containerInputPerguntas"> 
+                <input placeholder="Resposta incorreta 3" class="">
+                <input placeholder="URL da imagem 3" class="">
+            </div>
+        </div>
+       `
+    }
+    CONTAINER_TELA_3.innerHTML += minhasPerguntas;
+
+    validarPerguntas();
+}
+
+
+function validarPerguntas() {
+
 }
 
