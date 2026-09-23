@@ -15,12 +15,12 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 30px;
+    font-size: 28px;
     font-weight: bold;
     color: #FFFFFF;
     background-color: #EC362D;
     width: 100%;
-    height: 60px;
+    height: 70px;
     box-shadow: 3px 3px 3px #BDBDBD;
 }
 
@@ -29,8 +29,8 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 70px 20px;
     width: 100%;
+    background-color: #FFFFFF;;
 }
 
 .conteudo-principal {
@@ -38,7 +38,7 @@ main {
     max-width: 1200px;
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    margin-top: 30px;
 }
 
 .seusQuizzes {
@@ -54,13 +54,13 @@ main {
 }
 
 .seusQuizzes span {
-    font-size: 20px;
+    font-size: 18px;
     color: #B9B9B9;
     line-height: 24px;
 }
 
 .criarQuizz {
-    margin-top: 25px;
+    margin-top: 15px;
     font-size: 20px;
     font-weight: 450;
     padding: 12px 30px;
@@ -77,26 +77,25 @@ main {
 }
 
 .titulo-secao {
-    margin-top: 30px;
-    margin-bottom: -30px;
     font-size: 20px;
     font-weight: bold;
     color: #000000;
+    margin-top: 40px;
+    margin-bottom: 15px;
 }
 
 .todosOsQuizzes {
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    gap: 30px;
     width: 100%;
-    gap: 20px;
 }
 
 .quizz {
     position: relative;
     width: 380px;
     height: 200px;
-    border-radius: 10px;
+    border-radius: 6px;
     overflow: hidden;
     cursor: pointer;
     transition: opacity 0.2 ease;
@@ -117,7 +116,7 @@ main {
     top: 0;
     left: 0;
     color: #FFFFFF;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 18px;
     display: flex;
     align-items: flex-end;
@@ -127,9 +126,6 @@ main {
     background: linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
 }
 
-.esconde {
-    display: none;
-}
 
 .quizz-escolhido {
     position: relative;
@@ -150,10 +146,9 @@ main {
     width: 100%;
     height: 100%;
     color: #FFFFFF;
-    font-size: 24px;
-    line-height: 28px;
+    font-weight: 500;
+    font-size: 26px;
     text-align: center;
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -161,7 +156,6 @@ main {
 
 section {
     display: flex;
-
     align-items: center;
     width: 100%;
     height: auto;
@@ -169,14 +163,13 @@ section {
 
 .container-perguntas {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     flex-wrap: wrap;
     width: 900px;
-    height: 750px;
-    margin-top: 30px;
+    height: 650px;
+    margin-top: 40px;
     margin-bottom: 60px;
     background-color: #FFFFFF;
-    gap: 40px;
     box-shadow: 3px 3px 3px #BDBDBD;
 }
 
@@ -188,24 +181,27 @@ section {
     align-items: center;
     text-align: center;
     color: #FFFFFF;
-    font-size: 22px;
-    font-weight: bold;
+    font-size: 24px;
+    font-weight: 500;
 }
 
 .container-perguntas img {
     width: 380px;
     height: 200px;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
+    box-shadow: 3px 3px 3px #BDBDBD;
 }
 
 .container-resposta {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 10px;
     font-weight: bold;
     font-size: 16px;
+    height: 230px;
+    width: auto;
 }
 
 .tela2 {
@@ -238,27 +234,24 @@ section {
 }
 
 .resultado img {
-    width: 250px;
+    width: 230px;
     height: 250px;
-    margin-bottom: 100px;
-    border-radius: 10px;
+    border-radius: 6px;
 }
 
 .resultado .centro {
     display: flex;
+    justify-content: center;
     align-items: center;
-    margin-top: 30px;
-    gap: 80px;
+    gap: 30px;
 }
 
 .resultado span.legenda {
     word-wrap: break-word;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
-    text-align: center;
-    margin-bottom: 350px;
-    height: 0px;
-    width: 150px;
+    text-align: center; 
+    width: 180px;
     color: #484848;
 }
 
@@ -282,7 +275,6 @@ section {
     padding: 12px 30px;
     color: #f3f3f3;
     background-color: #EC362D;
-    ;
     border: 1.5px dashed #EC362D;
     border-radius: 10px;
     cursor: pointer;
@@ -292,24 +284,28 @@ section {
 .tela3 {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    gap: 50px;
+    width: 100%;
+    padding: 70px 20px;
+    min-height: calc(100vh - 70px);
 }
 
 .titulo-tela3 {
     font-size: 24px;
     font-weight: 500;
-    margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 .containerInput {
-    width: 650px;
-    height: 220px;
+    width: 630px;
+    max-width: 100%;
+    min-height: 220px;
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
+    margin-bottom: 40px;
     flex-direction: column;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
     background-color: #FFFFFF;
@@ -319,6 +315,7 @@ section {
     border-radius: 5px;
     height: 40px;
     width: 600px;
+    max-width: calc(100% - 30px);
     border: 1px solid #BDBDBD;
     font-size: 14px;
     color: #BABABA;
@@ -334,32 +331,39 @@ section {
 }
 
 .containerDeCriarPerguntas {
-    width: 700px;
-    height: 800px;
+    width: 600px;
+    height: 700px;
     box-shadow: 1px 1px 1px #BDBDBD;
     background-color: #FFFFFF;
     display: flex;
     flex-direction: column;
+    margin-bottom: 50px;
+    justify-content: center;
     padding-left: 25px;
+    gap: 13px;
 }
 
 .containerInputPerguntas {
-    width: 650px;
-    height: 220px;
+    width: 600px;
+    height: 100px;
     display: flex;
-    gap: 10px;
+    gap: 8px;
     flex-direction: column;
-    background-color: #FFFFFF;
 }
 
 .containerInputPerguntas>input {
     border-radius: 5px;
     height: 40px;
-    width: 600px;
+    width: 550px;
+    max-width: 100%;
     border: 1px solid #BDBDBD;
     font-size: 14px;
     color: #BABABA;
     font-style: italic;
     padding-left: 10px;
 
+}
+
+.esconde {
+    display: none;
 }

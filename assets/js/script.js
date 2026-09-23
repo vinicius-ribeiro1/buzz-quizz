@@ -53,7 +53,7 @@ function renderizarQuizzes(response) {
 function escolherQuizz(id) {
 
     ocultarTela1();
-
+    ocultarTela3();
     mostrarTela2();
 
     const promise = axios.get(API + '/quizzes/' + id);
@@ -321,6 +321,9 @@ function voltarParaHome() {
 
     const ocultarTela2 = document.querySelector(".tela2");
     ocultarTela2.classList.add("esconde");
+   
+    const ocultarTela3 = document.querySelector(".tela3");
+    ocultarTela3.classList.add("esconde");
 
     const header = document.querySelector("header")
     header.scrollIntoView();
@@ -330,6 +333,12 @@ function voltarParaHome() {
 function mostrarTela3() {
     const exibeT3 = document.querySelector(".tela3");
     exibeT3.classList.remove("esconde");
+}
+
+
+function ocultarTela3() {
+    const EXIBIR = document.querySelector(".tela3");
+    EXIBIR.classList.add("esconde");
 }
 
 
@@ -434,6 +443,10 @@ function criarPerguntas(indice) {
     }
     CONTAINER_TELA_3.innerHTML += minhasPerguntas;
 
+    
+    
+    
+    
     validarPerguntas();
 }
 
