@@ -20,6 +20,8 @@ let imgMeuQuizz;
 let qtdPerguntasMeuQuizz;
 let niveisMeuQuizz;
 
+let quizzCriado;
+
 
 
 iniciar();
@@ -321,7 +323,7 @@ function voltarParaHome() {
 
     const ocultarTela2 = document.querySelector(".tela2");
     ocultarTela2.classList.add("esconde");
-   
+
     const ocultarTela3 = document.querySelector(".tela3");
     ocultarTela3.classList.add("esconde");
 
@@ -343,8 +345,19 @@ function ocultarTela3() {
 
 
 function criarQuizz() {
+
+    quizzCriado = {
+        title: '',
+        image: '',
+        quantidadePerguntas: 0,
+        quantidadeNiveis: 0,
+        questions: [],
+        levels: [],
+    };
+
     ocultarTela1();
     mostrarTela3();
+
 
     CONTAINER_TELA_3.innerHTML = `
         <h1 class="titulo-tela3">Comece pelo começo</h1>
@@ -372,6 +385,11 @@ function salvarInfoBasicasQuizz() {
     if (!validarInfoBasicasQuizz()) {
         alert('Preencha os dados corretamente');
     } else {
+        quizzCriado.title = tituloMeuQuizz;
+        quizzCriado.image = imgMeuQuizz;
+        quizzCriado.quantidadePerguntas = qtdPerguntasMeuQuizz
+        quizzCriado.quantidadeNiveis = niveisMeuQuizz
+
         criarPerguntas();
     }
 }
@@ -410,48 +428,156 @@ function criarPerguntas(indice) {
     let minhasPerguntas = '';
 
     for (let i = 0; i < qtdPerguntasMeuQuizz; i++) {
-        
+        let classe = '';
+        let esconde = '';
         indice = i;
 
+        if (indice === 0) {
+            classe = 'expandido';
+        } else {
+            esconde = 'esconde';
+        }
+
         minhasPerguntas += `
-        <div class="containerDeCriarPerguntas">
-            <h1 class="titulo-perguntas">Pergunta ${indice + 1}</h1>
-            <div class="containerInputPerguntas"> 
-                <input placeholder="Texto da pergunta" class="input-txtPergunta">
-                <input placeholder="Cor de fundo da pergunta" class="">
+        <div class="containerDeCriarPerguntas ${classe}" >
+            <div class="container-titulo">
+                <h1 class="titulo-perguntas">Pergunta ${indice + 1}</h1>
+                <div class="toggle" onclick="expandirCard(this)">
+                    <ion-icon name="create-outline"></ion-icon>
+                </div>
             </div>
-            <h1 class="titulo-perguntas">Resposta correta</h1>
-            <div class="containerInputPerguntas"> 
-                <input placeholder="Resposta correta" class="">
-                <input placeholder="URL da imagem" class="">
-            </div>
-            <h1 class="titulo-perguntas">Resposta incorretas</h1>
-            <div class="containerInputPerguntas"> 
-                <input placeholder="Resposta incorreta 1" class="">
-                <input placeholder="URL da imagem 1" class="">
-            </div>
-            <div class="containerInputPerguntas"> 
-                <input placeholder="Resposta incorreta 2" class="">
-                <input placeholder="URL da imagem 2" class="">
-            </div>
-            <div class="containerInputPerguntas"> 
-                <input placeholder="Resposta incorreta 3" class="">
-                <input placeholder="URL da imagem 3" class="">
+            <div class="container-conteudo ${esconde}">
+                <div class="containerInputPerguntas">
+                    <input placeholder="Texto da pergunta" class="pergunta-${indice}-texto">
+                    <input placeholder="Cor de fundo da pergunta" class="pergunta-${indice}-cor">
+                </div>
+                <h1 class="titulo-perguntas">Resposta correta</h1>
+                <div class="containerInputPerguntas">
+                    <input placeholder="Resposta correta" class="pergunta-${indice}-respostaCorreta">
+                    <input placeholder="URL da imagem" class="pergunta-${indice}-url">
+                </div>
+                <h1 class="titulo-perguntas">Resposta incorretas</h1>
+                <div class="containerInputPerguntas">
+                    <input placeholder="Resposta incorreta 1" class="pergunta-${indice}-incorreta-1">
+                    <input placeholder="URL da imagem 1" class="pergunta-${indice}-urlIncorreta-1">
+                </div>
+                <div class="containerInputPerguntas">
+                    <input placeholder="Resposta incorreta 2" class="pergunta-${indice}-incorreta-2">
+                    <input placeholder="URL da imagem 2" class="pergunta-${indice}-urlIncorreta-2">
+                </div>
+                <div class="containerInputPerguntas">
+                    <input placeholder="Resposta incorreta 3" class="pergunta-${indice}-incorreta-3">
+                    <input placeholder="URL da imagem 3" class="pergunta-${indice}-urlIncorreta-3">
+                </div>
             </div>
         </div>
        `
     }
     CONTAINER_TELA_3.innerHTML += minhasPerguntas;
 
-    
-    
-    
-    
-    validarPerguntas();
+    CONTAINER_TELA_3.innerHTML += `
+    <div class="botoes" onclick="salvarPerguntas()">Prosseguir para criar níveis</div>`
+
 }
 
 
-function validarPerguntas() {
+function salvarPerguntas() {
+    quizzCriado.questions = [];
 
+    for (let i = 0; i < quizzCriado.quantidadePerguntas; i++) {
+        const pergunta = {};
+
+        pergunta.title = document.querySelector(`.pergunta-${i}-texto`).value;
+        pergunta.color = document.querySelector(`.pergunta-${i}-cor`).value;
+        
+        pergunta.answers = [];
+
+        const respostaCorreta = {
+            isCorrectAnswer: true,
+            text: document.querySelector(`.pergunta-${i}-respostaCorreta`).value,
+            image: document.querySelector(`.pergunta-${i}-url`).value,
+        }
+        
+        pergunta.answers.push(respostaCorreta)
+
+        for (let j = 1; j <= 3; j++) {
+            const resposta = {
+                isCorrectAnswer: false,
+                text: document.querySelector(`.pergunta-${i}-incorreta-${j}`).value,
+                image: document.querySelector(`.pergunta-${i}-urlIncorreta-${j}`).value
+            };
+             
+            if (resposta.text.length === 0) {
+                continue;
+            }
+
+            pergunta.answers.push(resposta);
+        }
+         
+       quizzCriado.questions.push(pergunta);
+
+    }
+    
+    validarPerguntas();
+
+}
+
+/*function validarPerguntas() {
+    if (textoPergunta.length < 20) {
+        return false;
+    }
+
+    if (!validarCor(corFundo)) {
+        return false;
+    }
+
+    if (!respostaCorreta) {
+        return false;
+    }
+
+    if (!primeiraIncorreta && !segundaIncorreta && !terceiraIncorreta) {
+        return false;
+    }
+
+    if (!validarUrl(urlRespostaCorreta)) {
+        return false;
+    }
+
+    if (primeiraIncorreta && !validarUrl(urlIncorreta1)) {
+        return false;
+    }
+
+    if (segundaIncorreta && !validarUrl(urlIncorreta2)) {
+        return false;
+    }
+
+    if (terceiraIncorreta && !validarUrl(urlIncorreta3)) {
+        return false;
+    }
+
+    return true;
+}*/
+
+
+
+function expandirCard(elemento) {
+    elemento.parentElement.parentElement.classList.toggle("expandido");
+    const elementoPai = elemento.parentElement.parentElement;
+    const elementoFilho = elementoPai.querySelector(".container-conteudo");
+    elementoFilho.classList.toggle("esconde")
+}
+
+function validarCor(cor) {
+
+    const regex = /^#[0-9A-Fa-f]{6}$/;
+
+    return regex.test(cor);
+}
+
+function validarUrl(texto) {
+
+    const regexUrl = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
+
+    return regexUrl.test(texto);
 }
 

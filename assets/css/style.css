@@ -332,8 +332,8 @@ section {
 
 .containerDeCriarPerguntas {
     width: 600px;
-    height: 700px;
-    box-shadow: 1px 1px 1px #BDBDBD;
+    height: 100px;
+    box-shadow: 1px 1px 1px 1px #BDBDBD;
     background-color: #FFFFFF;
     display: flex;
     flex-direction: column;
@@ -364,6 +364,32 @@ section {
 
 }
 
+.container-titulo {
+   font-size: 20px;
+   display: flex;
+   justify-content: space-between;
+   padding-right: 25px;
+}
+
+.toggle {
+    cursor: pointer;
+}
+
+.container-conteudo {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 13px;
+}
+
+
 .esconde {
     display: none;
 }
+
+.expandido {
+    height: 700px;
+}
+
