@@ -393,3 +393,27 @@ section {
     height: 700px;
 }
 
+.containerInputNiveis {
+    width: 600px;
+    height: 200px;
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+}
+
+.containerInputNiveis>input {
+    border-radius: 5px;
+    height: 40px;
+    width: 550px;
+    max-width: 100%;
+    border: 1px solid #BDBDBD;
+    font-size: 14px;
+    color: #BABABA;
+    font-style: italic;
+    padding-left: 10px;
+
+}
+
+.expandidoNiveis {
+    height: 270px;
+}

@@ -161,6 +161,7 @@ function verificarRespostaCerta(respostaEscolhida) {
     setTimeout(rolarParaProxima, TIME_2S);
 }
 
+
 function rolarParaProxima() {
     const proximaPergunta = divPai.nextElementSibling;
     if (proximaPergunta !== null) {
@@ -170,6 +171,7 @@ function rolarParaProxima() {
     }
 
 }
+
 
 function ocultarTela1() {
     const OCULTAR = document.querySelector(".conteudo-principal");
@@ -187,11 +189,13 @@ function comparador() {
     return Math.random() - 0.5;
 }
 
+
 function embaralharRespostas() {
     for (let i = 0; i < perguntas.length; i++) {
         perguntas[i].answers.sort(comparador)
     }
 }
+
 
 function conferirResultado() {
     porcentagemDeAcertos = Math.floor((acertos / qtdPerguntas) * 100)
@@ -237,6 +241,7 @@ function renderizarResultado() {
     }, TIME_2S);
 
 }
+
 
 function reiniciarQuizz() {
     acertos = 0;
@@ -374,6 +379,7 @@ function criarQuizz() {
     `
 }
 
+
 function salvarInfoBasicasQuizz() {
     tituloMeuQuizz = document.querySelector(".input-titulo").value;
     imgMeuQuizz = document.querySelector(".input-img").value;
@@ -393,6 +399,7 @@ function salvarInfoBasicasQuizz() {
         criarPerguntas();
     }
 }
+
 
 function validarInfoBasicasQuizz() {
 
@@ -420,6 +427,7 @@ function validarInfoBasicasQuizz() {
 
     return true;
 }
+
 
 function criarPerguntas(indice) {
     CONTAINER_TELA_3.innerHTML = `
@@ -489,7 +497,7 @@ function salvarPerguntas() {
 
         pergunta.title = document.querySelector(`.pergunta-${i}-texto`).value;
         pergunta.color = document.querySelector(`.pergunta-${i}-cor`).value;
-        
+
         pergunta.answers = [];
 
         const respostaCorreta = {
@@ -497,7 +505,7 @@ function salvarPerguntas() {
             text: document.querySelector(`.pergunta-${i}-respostaCorreta`).value,
             image: document.querySelector(`.pergunta-${i}-url`).value,
         }
-        
+
         pergunta.answers.push(respostaCorreta)
 
         for (let j = 1; j <= 3; j++) {
@@ -506,57 +514,73 @@ function salvarPerguntas() {
                 text: document.querySelector(`.pergunta-${i}-incorreta-${j}`).value,
                 image: document.querySelector(`.pergunta-${i}-urlIncorreta-${j}`).value
             };
-             
+
             if (resposta.text.length === 0) {
                 continue;
             }
 
             pergunta.answers.push(resposta);
         }
-         
-       quizzCriado.questions.push(pergunta);
+
+        quizzCriado.questions.push(pergunta);
 
     }
-    
+
     validarPerguntas();
+
+    if (!validarPerguntas()) {
+        alert('Preencha os dados corretamente');
+    } else {
+        criarNiveis();
+    }
+
 
 }
 
-/*function validarPerguntas() {
-    if (textoPergunta.length < 20) {
-        return false;
+
+function validarPerguntas() {
+
+    for (let i = 0; i < quizzCriado.questions.length; i++) {
+        if (quizzCriado.questions[i].title.length < 20) {
+            return false;
+        }
     }
 
-    if (!validarCor(corFundo)) {
-        return false;
+
+    for (let i = 0; i < quizzCriado.questions.length; i++) {
+        if (!validarCor(quizzCriado.questions[i].color)) {
+            return false;
+        }
     }
 
-    if (!respostaCorreta) {
-        return false;
+
+    for (let i = 0; i < quizzCriado.questions.length; i++) {
+        if (!quizzCriado.questions[i].answers[0].text) {
+            return false;
+        }
     }
 
-    if (!primeiraIncorreta && !segundaIncorreta && !terceiraIncorreta) {
-        return false;
+
+    for (let i = 0; i < quizzCriado.questions.length; i++) {
+        if (quizzCriado.questions[i].answers.length < 2) {
+            return false;
+        }
     }
 
-    if (!validarUrl(urlRespostaCorreta)) {
-        return false;
-    }
 
-    if (primeiraIncorreta && !validarUrl(urlIncorreta1)) {
-        return false;
-    }
-
-    if (segundaIncorreta && !validarUrl(urlIncorreta2)) {
-        return false;
-    }
-
-    if (terceiraIncorreta && !validarUrl(urlIncorreta3)) {
-        return false;
+    for (let i = 0; i < quizzCriado.questions.length; i++) {
+        for (let j = 0; j < quizzCriado.questions[i].answers.length; j++) {
+            if (!quizzCriado.questions[i].answers[j].text) {
+                return false;
+            }
+            if (!validarUrl(quizzCriado.questions[i].answers[j].image)) {
+                return false;
+            }
+        }
     }
 
     return true;
-}*/
+}
 
 
 
@@ -581,3 +605,159 @@ function validarUrl(texto) {
     return regexUrl.test(texto);
 }
 
+
+function criarNiveis(indice) {
+
+    CONTAINER_TELA_3.innerHTML = `
+        <h1 class="titulo-tela3">Agora decida os níveis</h1>
+        `
+    let meusNiveis = '';
+
+    for (let i = 0; i < quizzCriado.quantidadeNiveis; i++) {
+        let classe = '';
+        let esconde = '';
+        indice = i;
+
+        if (indice === 0) {
+            classe = 'expandidoNiveis';
+        } else {
+            esconde = 'esconde';
+        }
+
+        meusNiveis += `
+        <div class="containerDeCriarPerguntas ${classe}" >
+            <div class="container-titulo">
+                <h1 class="titulo-perguntas">Nível ${indice + 1}</h1>
+                <div class="toggle" onclick="expandirCardNiveis(this)">
+                    <ion-icon name="create-outline"></ion-icon>
+                </div>
+            </div>
+            <div class="container-conteudo ${esconde}">
+                <div class="containerInputNiveis">
+                    <input placeholder="Título de nível" class="nivel-${indice}-titulo">
+                    <input type="number" placeholder="% de acerto mínima" class="nivel-${indice}-acerto">
+                    <input placeholder="URL da imagem do nível" class="nivel-${indice}-url">  
+                    <input placeholder="Descrição do nível" class="nivel-${indice}-descricao">
+                </div>
+            </div>
+        </div>
+       `
+    }
+    CONTAINER_TELA_3.innerHTML += meusNiveis;
+
+    CONTAINER_TELA_3.innerHTML += `
+    <div class="botoes" onclick="salvarNiveis()">Finalizar Quizz</div>`
+}
+
+
+function expandirCardNiveis(elemento) {
+    elemento.parentElement.parentElement.classList.toggle("expandidoNiveis");
+    const elementoPai = elemento.parentElement.parentElement;
+    const elementoFilho = elementoPai.querySelector(".container-conteudo");
+    elementoFilho.classList.toggle("esconde")
+}
+
+
+function salvarNiveis() {
+    quizzCriado.levels = [];
+
+    for (let i = 0; i < quizzCriado.quantidadeNiveis; i++) {
+        const nivel = {};
+
+        nivel.title = document.querySelector(`.nivel-${i}-titulo`).value;
+        nivel.minValue = parseInt(document.querySelector(`.nivel-${i}-acerto`).value);
+        nivel.image = document.querySelector(`.nivel-${i}-url`).value;
+        nivel.text = document.querySelector(`.nivel-${i}-descricao`).value;
+
+        quizzCriado.levels.push(nivel)
+    }
+
+    validarNiveis();
+
+    if (!validarNiveis()) {
+        alert('Preencha os dados corretamente');
+    } else {
+        finalizarQuizz();
+    }
+
+}
+
+
+function validarNiveis() {
+    for (let i = 0; i < quizzCriado.levels.length; i++) {
+        if (quizzCriado.levels[i].title.length < 10) {
+            return false;
+        }
+    }
+
+    for (let i = 0; i < quizzCriado.levels.length; i++) {
+        if (quizzCriado.levels[i].minValue < 0 || quizzCriado.levels[i].minValue > 100) {
+            return false;
+        }
+    }
+
+    for (let i = 0; i < quizzCriado.levels.length; i++) {
+        if (!validarUrl(quizzCriado.levels[i].image)) {
+            return false;
+        }
+    }
+
+    for (let i = 0; i < quizzCriado.levels.length; i++) {
+        if (quizzCriado.levels[i].text.length < 30) {
+            return false;
+        }
+    }
+
+
+    let encontrarZero = false;
+
+    for (let i = 0; i < quizzCriado.levels.length; i++) {
+
+        if (quizzCriado.levels[i].minValue === 0) {
+            encontrarZero = true;
+        }
+    }
+
+    if (!encontrarZero) {
+        return false;
+    }
+
+    return true;
+}
+
+
+function finalizarQuizz() {
+    const dados = {
+    title: quizzCriado.title,
+    image: quizzCriado.image,
+    questions: quizzCriado.questions,
+    levels: quizzCriado.levels
+  }
+
+    const promise = axios.post(API + '/quizzes', dados);
+
+  promise.then(salvarQuizzNoLocalStorage);  
+}
+
+
+function salvarQuizzNoLocalStorage(resposta) {
+    console.log(resposta.data)
+    exibirSucesso();
+}
+
+
+
+function exibirSucesso(id) {
+     CONTAINER_TELA_3.innerHTML = `
+        <h1 class="titulo-tela3">Seu quizz está pronto!</h1>
+        <div class="quizz" onclick="escolherQuizz(${quizzCriado.id})">
+            <img src="${quizzCriado.image}">
+            <span class="titulo-card">
+                ${quizzCriado.title}
+            </span>
+         </div>
+         <div class="botao">
+            <div class="botoes" onclick="escolherQuizz(${quizzCriado.id})">Escolher Quizz</div>
+            <div class="botoes" onclick="voltarParaHome()">Voltar pra home</div>
+        </div>`
+}
