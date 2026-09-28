@@ -49,43 +49,59 @@ function obterQuizzesLocalStorage() {
 
 
 function renderizarQuizzes(response) {
-    const meusQuizzes = document.querySelector(".seusQuizzes")
+
+    const meusQuizzes = document.querySelector(".seusQuizzes");
     const listaDeQuizzes = document.querySelector(".todosOsQuizzes");
 
-    if (idQuizzesCriados.length > 0) {
-        meusQuizzes.innerHTML = "";
-        meusQuizzes.classList.add("meusQuizzes")
-    }
-
+    meusQuizzes.innerHTML = "";
     listaDeQuizzes.innerHTML = "";
 
-    for (let i = 0; i < response.data.length; i++) {
-        const quizzes = response.data[i];
-        if (idQuizzesCriados.includes(quizzes.id)) {
-            meusQuizzes.innerHTML += `
+    if (idQuizzesCriados.length > 0) {
+
+        meusQuizzes.classList.add("meusQuizzes");
+
+        meusQuizzes.innerHTML = `
             <div class="container-titulo icone-vermelho">
                 <h1 class="titulo-perguntas">Seus Quizzes</h1>
                 <div class="toggle" onclick="criarQuizz()">
-                   <ion-icon name="add-circle"></ion-icon>
+                    <ion-icon name="add-circle"></ion-icon>
                 </div>
             </div>
-            <div class="quizz" onclick="escolherQuizz(${quizzes.id})">
-                <img src="${quizzes.image}">
-                <span class="titulo-card">
-                ${quizzes.title}
-                </span>
-            </div>`;
-        } else {
-            listaDeQuizzes.innerHTML += `
-            <div class="quizz" onclick="escolherQuizz(${quizzes.id})">
-                <img src="${quizzes.image}">
-                <span class="titulo-card">
-                ${quizzes.title}
-                </span>
-            </div>`;
+        `;
+
+        for (let i = 0; i < response.data.length; i++) {
+
+            const quizzes = response.data[i];
+
+            if (idQuizzesCriados.includes(quizzes.id)) {
+
+                meusQuizzes.innerHTML += `
+                    <div class="quizz" onclick="escolherQuizz(${quizzes.id})">
+                        <img src="${quizzes.image}">
+                        <span class="titulo-card">
+                            ${quizzes.title}
+                        </span>
+                    </div>
+                `;
+            }
         }
+    }
 
+    for (let i = 0; i < response.data.length; i++) {
 
+        const quizzes = response.data[i];
+
+        if (!idQuizzesCriados.includes(quizzes.id)) {
+
+            listaDeQuizzes.innerHTML += `
+                <div class="quizz" onclick="escolherQuizz(${quizzes.id})">
+                    <img src="${quizzes.image}">
+                    <span class="titulo-card">
+                        ${quizzes.title}
+                    </span>
+                </div>
+            `;
+        }
     }
 }
 
@@ -176,7 +192,7 @@ function verificarRespostaCerta(respostaEscolhida) {
     let cartaEscolhidaTxt = respostaEscolhida.querySelector("span").innerText;
 
 
-    const listaFiltrada = listaRespostas.forEach(elemento => {
+    listaRespostas.forEach(elemento => {
         if (elemento !== respostaEscolhida) {
             elemento.classList.add("esbranquicado");
         }
@@ -285,7 +301,7 @@ function reiniciarQuizz() {
     acertos = 0;
     porcentagemDeAcertos = 0;
     levelAtingido = [];
-    perguntas = [];
+    htmlPerguntas = '';
 
     const containerRespostas = document.querySelectorAll(".container-resposta");
 
