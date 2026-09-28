@@ -21,6 +21,8 @@ let qtdPerguntasMeuQuizz;
 let niveisMeuQuizz;
 
 let quizzCriado;
+let meuQuizz = [];
+let idQuizzesCriados = [];
 
 
 
@@ -28,26 +30,62 @@ iniciar();
 
 
 function iniciar() {
+    obterQuizzesLocalStorage();
+
     const promise = axios.get(API + '/quizzes')
     promise.then(renderizarQuizzes)
 }
 
 
+function obterQuizzesLocalStorage() {
+    const recuperarIdsSerializados = localStorage.getItem("id");
+
+    if (recuperarIdsSerializados !== null) {
+        const idsDeserializados = JSON.parse(recuperarIdsSerializados);
+        idQuizzesCriados = idsDeserializados;
+    }
+
+}
+
+
 function renderizarQuizzes(response) {
+    const meusQuizzes = document.querySelector(".seusQuizzes")
     const listaDeQuizzes = document.querySelector(".todosOsQuizzes");
+
+    if (idQuizzesCriados.length > 0) {
+        meusQuizzes.innerHTML = "";
+        meusQuizzes.classList.add("meusQuizzes")
+    }
+
     listaDeQuizzes.innerHTML = "";
 
     for (let i = 0; i < response.data.length; i++) {
         const quizzes = response.data[i];
-
-        listaDeQuizzes.innerHTML += `
-        <div class="quizz" onclick="escolherQuizz(${quizzes.id})">
-            <img src="${quizzes.image}">
-            <span class="titulo-card">
+        if (idQuizzesCriados.includes(quizzes.id)) {
+            meusQuizzes.innerHTML += `
+            <div class="container-titulo icone-vermelho">
+                <h1 class="titulo-perguntas">Seus Quizzes</h1>
+                <div class="toggle" onclick="criarQuizz()">
+                   <ion-icon name="add-circle"></ion-icon>
+                </div>
+            </div>
+            <div class="quizz" onclick="escolherQuizz(${quizzes.id})">
+                <img src="${quizzes.image}">
+                <span class="titulo-card">
                 ${quizzes.title}
-            </span>
-         </div>
-        `
+                </span>
+            </div>`;
+        } else {
+            listaDeQuizzes.innerHTML += `
+            <div class="quizz" onclick="escolherQuizz(${quizzes.id})">
+                <img src="${quizzes.image}">
+                <span class="titulo-card">
+                ${quizzes.title}
+                </span>
+            </div>`;
+        }
+
+
     }
 }
 
@@ -334,6 +372,8 @@ function voltarParaHome() {
 
     const header = document.querySelector("header")
     header.scrollIntoView();
+
+    iniciar();
 }
 
 
@@ -583,13 +623,13 @@ function validarPerguntas() {
 }
 
 
-
 function expandirCard(elemento) {
     elemento.parentElement.parentElement.classList.toggle("expandido");
     const elementoPai = elemento.parentElement.parentElement;
     const elementoFilho = elementoPai.querySelector(".container-conteudo");
     elementoFilho.classList.toggle("esconde")
 }
+
 
 function validarCor(cor) {
 
@@ -728,36 +768,41 @@ function validarNiveis() {
 
 function finalizarQuizz() {
     const dados = {
-    title: quizzCriado.title,
-    image: quizzCriado.image,
-    questions: quizzCriado.questions,
-    levels: quizzCriado.levels
-  }
+        title: quizzCriado.title,
+        image: quizzCriado.image,
+        questions: quizzCriado.questions,
+        levels: quizzCriado.levels
+    }
 
     const promise = axios.post(API + '/quizzes', dados);
 
-  promise.then(salvarQuizzNoLocalStorage);  
+    promise.then(salvarQuizzNoLocalStorage);
 }
 
 
 function salvarQuizzNoLocalStorage(resposta) {
     console.log(resposta.data)
+    meuQuizz = resposta.data
+    idQuizzesCriados.push(meuQuizz.id)
+
+    const idsSerializados = JSON.stringify(idQuizzesCriados)
+    localStorage.setItem("id", idsSerializados)
+
     exibirSucesso();
 }
 
 
-
-function exibirSucesso(id) {
-     CONTAINER_TELA_3.innerHTML = `
+function exibirSucesso() {
+    CONTAINER_TELA_3.innerHTML = `
         <h1 class="titulo-tela3">Seu quizz está pronto!</h1>
-        <div class="quizz" onclick="escolherQuizz(${quizzCriado.id})">
-            <img src="${quizzCriado.image}">
+        <div class="quizz" onclick="escolherQuizz(${meuQuizz.id})">
+            <img src="${meuQuizz.image}">
             <span class="titulo-card">
-                ${quizzCriado.title}
+                ${meuQuizz.title}
             </span>
          </div>
          <div class="botao">
-            <div class="botoes" onclick="escolherQuizz(${quizzCriado.id})">Escolher Quizz</div>
+            <div class="botoes" onclick="escolherQuizz(${meuQuizz.id})">Escolher Quizz</div>
             <div class="botoes" onclick="voltarParaHome()">Voltar pra home</div>
         </div>`
 }
