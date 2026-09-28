@@ -53,11 +53,11 @@ function renderizarQuizzes(response) {
     const meusQuizzes = document.querySelector(".seusQuizzes");
     const listaDeQuizzes = document.querySelector(".todosOsQuizzes");
 
-    meusQuizzes.innerHTML = "";
+    
     listaDeQuizzes.innerHTML = "";
 
     if (idQuizzesCriados.length > 0) {
-
+        meusQuizzes.innerHTML = "";
         meusQuizzes.classList.add("meusQuizzes");
 
         meusQuizzes.innerHTML = `
